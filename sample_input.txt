@@ -1,0 +1,25 @@
+# Sample input file for Package Delivery System
+# Format for trucks: TRUCK <id> <type>
+# Format for packages: PACKAGE <id> <company> <zone> <month> <day> <year> <weight> <volume>
+# Format for special packages: SPECIAL <id> <company> <zone> <month> <day> <year> <weight> <volume> <deadline>
+
+# Define trucks
+TRUCK 1 SMALL
+TRUCK 2 SMALL
+TRUCK 3 MEDIUM
+TRUCK 4 LARGE
+
+# Regular packages
+PACKAGE 101 AmazonCorp A1 5 1 2026 50 100
+PACKAGE 102 FedExShip B2 5 1 2026 75 150
+PACKAGE 103 UPSDeliver C3 5 2 2026 100 200
+PACKAGE 104 DHLExpress D4 5 2 2026 60 120
+
+# Special packages (with time deadline 9-16)
+SPECIAL 201 PriorityPress A1 5 1 2026 40 80 10
+SPECIAL 202 UrgentCare B2 5 1 2026 30 60 14
+SPECIAL 203 VIPService C3 5 3 2026 55 110 11
+
+# More regular packages
+PACKAGE 104 StandardShip D4 5 3 2026 80 160
+PACKAGE 105 RegularPack E5 5 4 2026 45 90

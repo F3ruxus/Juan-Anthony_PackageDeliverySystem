@@ -1,4 +1,3 @@
-import java.util.Date;
 public class Pack implements Comparable<Pack> {
     public enum DeliveryType {
         REGULAR,
@@ -26,7 +25,7 @@ public class Pack implements Comparable<Pack> {
                 int timeDeadline) {
 
         if (packageID <= 0) {
-            throw new IllegalArgumentException("Package ID must be a positive integer.");
+            throw new PackageException("Package ID must be a positive integer.");
         }
 
         this.packageID = packageID;
@@ -78,7 +77,7 @@ public class Pack implements Comparable<Pack> {
 
     public void setReceiverCompany(String receiverCompany) {
         if (receiverCompany == null || !receiverCompany.matches("[a-zA-Z ]+")) {
-            throw new IllegalArgumentException(
+            throw new PackageException(
                     "Receiver company must contain alphabetic characters only."
             );
         }
@@ -87,7 +86,7 @@ public class Pack implements Comparable<Pack> {
 
     public void setDeliveryZone(String deliveryZone) {
         if (deliveryZone == null || !deliveryZone.matches("[A-Z][1-9]")) {
-            throw new IllegalArgumentException(
+            throw new PackageException(
                     "Delivery zone must be in format A1 to Z9."
             );
         }
@@ -96,14 +95,14 @@ public class Pack implements Comparable<Pack> {
 
     public void setDeliveryDate(Date deliveryDate) {
         if (deliveryDate == null) {
-            throw new IllegalArgumentException("Delivery date cannot be null.");
+            throw new PackageException("Delivery date cannot be null.");
         }
         this.deliveryDate = deliveryDate;
     }
 
     public void setWeight(double weight) {
         if (weight <= 0) {
-            throw new IllegalArgumentException(
+            throw new PackageException(
                     "Weight must be greater than 0."
             );
         }
@@ -112,7 +111,7 @@ public class Pack implements Comparable<Pack> {
 
     public void setVolume(double volume) {
         if (volume <= 0) {
-            throw new IllegalArgumentException(
+            throw new PackageException(
                     "Volume must be greater than 0."
             );
         }
@@ -121,7 +120,7 @@ public class Pack implements Comparable<Pack> {
 
     public void setDeliveryType(DeliveryType deliveryType) {
         if (deliveryType == null) {
-            throw new IllegalArgumentException(
+            throw new PackageException(
                     "Delivery type cannot be null."
             );
         }
@@ -131,7 +130,7 @@ public class Pack implements Comparable<Pack> {
     public void setTimeDeadline(int timeDeadline) {
         if (deliveryType == DeliveryType.SPECIAL) {
             if (timeDeadline < 9 || timeDeadline > 16) {
-                throw new IllegalArgumentException(
+                throw new PackageException(
                         "Time deadline for SPECIAL packages must be between 9 and 16."
                 );
             }

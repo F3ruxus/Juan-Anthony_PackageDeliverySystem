@@ -1,0 +1,43 @@
+========================================
+     DELIVERY MANIFEST
+========================================
+
+TRUCK 1 - SMALL
+  Capacity: Weight=2000.0 kg, Volume=1000.0 m³
+  Current Load: Weight=80.00 kg, Volume=160.00 m³
+  Total Packages: 2
+
+  PACKAGES TO DELIVER (in order):
+
+    Package #1:
+      ID: 202
+      Receiver: RushDelivery
+      Zone: B2
+      Delivery Date: 5/2/2026
+      Weight: 30.00 kg
+      Volume: 60.00 m³
+      Type: SPECIAL
+      Time Deadline: 12:00
+
+    Package #2:
+      ID: 101
+      Receiver: GoodCompany
+      Zone: A1
+      Delivery Date: 5/15/2026
+      Weight: 50.00 kg
+      Volume: 100.00 m³
+      Type: REGULAR
+
+----------------------------------------
+
+TRUCK 2 - LARGE
+  Capacity: Weight=8000.0 kg, Volume=4000.0 m³
+  Current Load: Weight=0.00 kg, Volume=0.00 m³
+  Total Packages: 0
+
+----------------------------------------
+
+========================================
+Total Packages Delivered: 2
+Total Truck Hours: 0.33
+========================================

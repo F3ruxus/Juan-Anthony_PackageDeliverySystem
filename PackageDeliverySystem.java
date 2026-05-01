@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  */
 public class PackageDeliverySystem {
     private List<Truck> trucks;
-    private List<pack> packages;
+    private List<Pack> packages;
     private static final double PACKAGE_DELIVERY_TIME_MINUTES = 10.0; // minutes per package
 
     /**
@@ -33,7 +33,7 @@ public class PackageDeliverySystem {
     /**
      * Adds a package to the delivery system
      */
-    public void addPackage(Package pkg) {
+    public void addPackage(Pack pkg) {
         if (pkg == null) {
             throw new IllegalArgumentException("Package cannot be null");
         }
@@ -50,7 +50,7 @@ public class PackageDeliverySystem {
     /**
      * Gets all packages
      */
-    public List<Package> getPackages() {
+    public List<Pack> getPackages() {
         return new ArrayList<>(packages);
     }
 
@@ -64,25 +64,25 @@ public class PackageDeliverySystem {
         }
 
         // Step 1: Sort packages by delivery date, then by time deadline (for special packages)
-        List<Package> sortedPackages = packages.stream()
+        List<Pack> sortedPackages = packages.stream()
                 .sorted((p1, p2) -> {
                     int dateComparison = p1.getDeliveryDate().compareTo(p2.getDeliveryDate());
                     if (dateComparison != 0) {
                         return dateComparison;
                     }
                     // If same delivery date, prioritize special packages with earlier deadlines
-                    if (p1 instanceof SpecialPackage && p2 instanceof SpecialPackage) {
-                        return ((SpecialPackage) p1).getTimeDeadline()
-                                .compareTo(((SpecialPackage) p2).getTimeDeadline());
+                    if (p1 instanceof SpecPack && p2 instanceof SpecPack) {
+                        return Integer.compare(((SpecPack) p1).getTimeDeadline(),
+                                ((SpecPack) p2).getTimeDeadline());
                     }
-                    if (p1 instanceof SpecialPackage) return -1; // Special packages first
-                    if (p2 instanceof SpecialPackage) return 1;
+                    if (p1 instanceof SpecPack) return -1; // Special packages first
+                    if (p2 instanceof SpecPack) return 1;
                     return 0;
                 })
                 .collect(Collectors.toList());
 
         // Step 2: For each package, find the best truck
-        for (Package pkg : sortedPackages) {
+        for (Pack pkg : sortedPackages) {
             Truck bestTruck = null;
             double minTruckHours = Double.POSITIVE_INFINITY;
 
@@ -114,9 +114,9 @@ public class PackageDeliverySystem {
             // Step 4: Assign to best truck or log error
             if (bestTruck != null) {
                 bestTruck.addPackage(pkg);
-                System.out.println("✓ Assigned " + pkg.getPackageId() + " to " + bestTruck.getTruckId());
+                System.out.println("✓ Assigned " + pkg.getPackageID() + " to " + bestTruck.getTruckID());
             } else {
-                System.err.println("✗ No suitable truck found for package: " + pkg.getPackageId());
+                System.err.println("✗ No suitable truck found for package: " + pkg.getPackageID());
             }
         }
     }
@@ -163,7 +163,7 @@ public class PackageDeliverySystem {
      * Heuristic: Each package takes PACKAGE_DELIVERY_TIME_MINUTES minutes to deliver
      * Time is returned in hours
      */
-    private double calculateDeliveryTime(List<Package> packageList) {
+    private double calculateDeliveryTime(List<Pack> packageList) {
         if (packageList.isEmpty()) {
             return 0;
         }
@@ -198,9 +198,9 @@ public class PackageDeliverySystem {
 
             if (!truck.getPackages().isEmpty()) {
                 report.append("  Packages:\n");
-                for (Package pkg : truck.getPackages()) {
+                for (Pack pkg : truck.getPackages()) {
                     report.append(String.format("    - %s (Weight: %.2f kg, Volume: %.2f m³)\n",
-                            pkg.getPackageId(), pkg.getWeight(), pkg.getVolume()));
+                            pkg.getPackageID(), pkg.getWeight(), pkg.getVolume()));
                     assignedPackages++;
                 }
             }
@@ -216,14 +216,14 @@ public class PackageDeliverySystem {
 
         if (unassignedPackages > 0) {
             report.append("\nUNASSIGNED PACKAGES:\n");
-            Set<String> assignedPackageIds = trucks.stream()
+            Set<Integer> assignedPackageIds = trucks.stream()
                     .flatMap(t -> t.getPackages().stream())
-                    .map(Package::getPackageId)
+                    .map(Pack::getPackageID)
                     .collect(Collectors.toSet());
 
-            for (Package pkg : packages) {
-                if (!assignedPackageIds.contains(pkg.getPackageId())) {
-                    report.append(String.format("  - %s: %s\n", pkg.getPackageId(), pkg.toString()));
+            for (Pack pkg : packages) {
+                if (!assignedPackageIds.contains(pkg.getPackageID())) {
+                    report.append(String.format("  - %s: %s\n", pkg.getPackageID(), pkg.toString()));
                 }
             }
         }
@@ -241,10 +241,10 @@ public class PackageDeliverySystem {
 
         for (Truck truck : trucks) {
             Truck.TruckType type = truck.getTruckType();
-            double weightUtilization = (truck.getTotalWeight() / type.getWeightCapacity()) * 100;
-            double volumeUtilization = (truck.getTotalVolume() / type.getVolumeCapacity()) * 100;
+            double weightUtilization = (truck.getTotalWeight() / type.getWeightLimit()) * 100;
+            double volumeUtilization = (truck.getTotalVolume() / type.getVolumeLimit()) * 100;
 
-            System.out.printf("%s:\n", truck.getTruckId());
+            System.out.printf("%d:\n", truck.getTruckID());
             System.out.printf("  Weight Utilization: %.2f%% (%s)\n", weightUtilization,
                     getUtilizationBar(weightUtilization));
             System.out.printf("  Volume Utilization: %.2f%% (%s)\n", volumeUtilization,

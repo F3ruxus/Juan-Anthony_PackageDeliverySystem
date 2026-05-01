@@ -1,0 +1,4 @@
+[ERROR] 1/1/2000 - Delivery zone must be in format A1 to Z9.
+[ERROR] 1/1/2000 - Receiver company must contain alphabetic characters only.
+[ERROR] 1/1/2000 - Weight must be greater than 0.
+[ERROR] 1/1/2000 - Time deadline for SPECIAL packages must be between 9 and 16.

@@ -1,4 +1,3 @@
-import java.util.Date;
 public class SpecPack extends Pack {
     public SpecPack(int packageID,
                     String receiverCompany,
@@ -7,7 +6,6 @@ public class SpecPack extends Pack {
                     double weight,
                     double volume,
                     int timeDeadline) {
-
         super(
                 packageID,
                 receiverCompany,
@@ -18,17 +16,6 @@ public class SpecPack extends Pack {
                 DeliveryType.SPECIAL,
                 timeDeadline
         );
-    }
-    
-    @Override
-    public void setTimeDeadline(int timeDeadline) {
-        if (timeDeadline < 9 || timeDeadline > 16) {
-            throw new IllegalArgumentException(
-                    "Special package deadline must be between 9 and 16."
-            );
-        }
-
-        super.setTimeDeadline(timeDeadline);
     }
 
     /**
